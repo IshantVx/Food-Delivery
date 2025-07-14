@@ -34,10 +34,13 @@ class _RegisterPageState extends State<RegisterPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 //logo
-                Icon(
-                  Icons.lock_open_rounded,
-                  size: 100,
-                  color: Theme.of(context).colorScheme.primary,
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Icon(
+                    Icons.lock_open_rounded,
+                    size: 100,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
                 ISpace.v24,
                 Text(

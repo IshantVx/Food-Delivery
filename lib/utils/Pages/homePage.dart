@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restapi/utils/componant/custom_widget/my_drawer.dart';
+import 'package:restapi/utils/componant/custom_widget/my_sliver_appBar.dart';
+
+import '../componant/custom_widget/my_current_location.dart';
+import '../componant/custom_widget/my_descriptionBox.dart';
 
 class homePage extends StatefulWidget {
   const homePage({super.key});
@@ -15,13 +20,32 @@ class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home"),),
-      drawer: Drawer(),
-      body: Column(
-        children: [
-          Text("This is homepage"),
-        ],
-      ),
+      drawer: MyDrawer(),
+      body: NestedScrollView(
+          headerSliverBuilder:(context, innerBoxIsScrolled) => [
+            MySliverAppbar(
+                title: Text("Home"),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Divider(
+                      indent: 25,
+                      endIndent: 25,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+
+                    // current location
+                    MyCurrentLocation(),
+                    // description box
+                    MyDescriptionBox(),
+                  ],
+                )
+            )
+          ] ,
+          body: Container(
+            color: Colors.blue,
+          )
+      )
     );
   }
 }
