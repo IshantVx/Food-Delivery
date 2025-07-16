@@ -15,60 +15,60 @@ class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Theme
-          .of(context)
-          .colorScheme
-          .surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       child: Column(
-          children: [
+        children: [
+          //logo
+          Padding(
+            padding: const EdgeInsets.only(top: 90),
+            child: Icon(
+              Icons.lock_open_rounded,
+              size: 80,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: Divider(color: Theme.of(context).colorScheme.primary),
+          ),
 
-      //logo
-      Padding(
-      padding: const EdgeInsets.only(top: 90),
-      child: Icon(Icons.lock_open_rounded,
-        size: 80,
-        color: Theme
-            .of(context)
-            .colorScheme
-            .primary,
+          //home list title
+          MyListTile(
+            text: "Home",
+            icon: Icons.home,
+            onTap: () => Navigator.pop(context),
+          ),
+          //settings list title
+          MyListTile(
+            text: "Settings",
+            icon: Icons.settings,
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
+            },
+          ),
+          MyListTile(
+            text: "Sellers",
+            icon: Icons.restaurant_rounded,
+            onTap: () => Navigator.pop(context),
+          ),
+          //logout list title
+          const Spacer(),
+          MyListTile(
+            text: "LogOut",
+            icon: Icons.logout,
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginOrRegister()),
+              );
+            },
+          ),
+        ],
       ),
-    ),
-    Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 14),
-    child: Divider(color: Theme.of(context).colorScheme.primary,),
-    ),
-
-    //home list title
-    MyListTile(
-    text: "Home",
-    icon: Icons.home,
-    onTap: ()=>Navigator.pop(context)
-    ),
-    //settings list title
-    MyListTile(
-    text: "Settings",
-    icon: Icons.settings,
-    onTap: (){
-      Navigator.pop(context);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context)=> SettingsPage()
-          ));
-    }),
-    //logout list title
-    const Spacer(),
-    MyListTile(
-        text: "LogOut",
-        icon: Icons.logout,
-        onTap: (){
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context)=>LoginOrRegister()));
-        })
-    ]
-    )
-    ,
     );
   }
 }

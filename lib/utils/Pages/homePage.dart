@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restapi/utils/componant/custom_widget/my_drawer.dart';
 import 'package:restapi/utils/componant/custom_widget/my_sliver_appBar.dart';
+import 'package:restapi/utils/componant/custom_widget/my_tabBar.dart';
 
 import '../componant/custom_widget/my_current_location.dart';
 import '../componant/custom_widget/my_descriptionBox.dart';
@@ -13,10 +15,28 @@ class homePage extends StatefulWidget {
   State<homePage> createState() => _homePageState();
 }
 
-class _homePageState extends State<homePage> {
+
+class _homePageState extends State<homePage> with SingleTickerProviderStateMixin{
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _tabController.dispose();
+  }
+
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _obscure = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +44,7 @@ class _homePageState extends State<homePage> {
       body: NestedScrollView(
           headerSliverBuilder:(context, innerBoxIsScrolled) => [
             MySliverAppbar(
-                title: Text("Home"),
+                title: MyTabBar(tabController: _tabController),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -42,8 +62,22 @@ class _homePageState extends State<homePage> {
                 )
             )
           ] ,
-          body: Container(
-            color: Colors.blue,
+          body: TabBarView(
+            controller: _tabController,
+            children:[
+              ListView.builder(
+                  itemCount: 13,
+                  itemBuilder: (context, index)=> Text("home")
+              ),
+              ListView.builder(
+                  itemCount: 13, 
+                  itemBuilder: (context,index)=> Text("Settings") 
+              ),
+              ListView.builder(
+                  itemCount: 13,
+                  itemBuilder: (context, index)=> Text("Profile")
+              )
+            ]
           )
       )
     );
