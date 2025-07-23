@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:restapi/utils/Pages/settingsPage.dart';
 import 'package:restapi/utils/auth/loggin_or_registor.dart';
 import 'package:restapi/utils/componant/custom_widget/my_listTile.dart';
+import '../../models/fetchBarrelStockData.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -55,6 +56,17 @@ class _MyDrawerState extends State<MyDrawer> {
             icon: Icons.restaurant_rounded,
             onTap: () => Navigator.pop(context),
           ),
+          MyListTile(
+            text: "Select Item",
+            icon: Icons.local_drink,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FetchBarrelStock()),
+              );
+
+            },
+          ),
           //logout list title
           const Spacer(),
           MyListTile(
@@ -65,8 +77,10 @@ class _MyDrawerState extends State<MyDrawer> {
                 context,
                 MaterialPageRoute(builder: (context) => LoginOrRegister()),
               );
+
             },
           ),
+
         ],
       ),
     );

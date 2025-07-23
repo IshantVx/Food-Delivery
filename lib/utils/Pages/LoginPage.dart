@@ -5,11 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:restapi/utils/Pages/ForgotPassword.dart';
 import 'package:restapi/utils/componant/custom_widget/my_button.dart';
 import 'package:restapi/utils/componant/custom_widget/my_textField.dart';
 import 'package:restapi/utils/constants/sizes.dart';
 import 'package:restapi/utils/constants/spaces.dart';
 import 'package:restapi/utils/theme/light_mode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'RegisterPage.dart';
 import 'homePage.dart';
@@ -43,6 +45,9 @@ class _longinPageState extends State<longinPage> {
     );
     if (response.statusCode == 200) {
       log(response.statusCode.toString());
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.setString("accessToken", jsonDecode(response.body)['tokens']['access']);
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => homePage()),
@@ -52,6 +57,7 @@ class _longinPageState extends State<longinPage> {
     }
     return response;
   }
+
 
   void _validation() {
     if (userNameController.text.isEmpty) {
@@ -131,6 +137,18 @@ class _longinPageState extends State<longinPage> {
                         child: _obscure
                             ? Icon(Icons.visibility)
                             : Icon(Icons.visibility_off),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20 , top: 10),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                            child: Text("Forgot Password", style: TextStyle(color: Theme.of(context).colorScheme.primary),),
+                          onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPassword()));
+                          },
+                        ),
                       ),
                     ),
                     // TextField(

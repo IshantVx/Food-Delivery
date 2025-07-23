@@ -6,13 +6,18 @@ import 'package:restapi/newPage.dart';
 import 'package:restapi/utils/Pages/LoginPage.dart';
 import 'package:restapi/utils/Pages/RegisterPage.dart';
 import 'package:restapi/utils/auth/loggin_or_registor.dart';
+import 'package:restapi/utils/models/restaurant.dart';
 import 'package:restapi/utils/theme/theme_provider.dart';
 
 void main() {
   runApp(
-      ChangeNotifierProvider(
-          create: (globalContext)=> ThemeProvider(),
-        child: const MyApp(),
+      MultiProvider(providers: [
+        //theme Provider
+        ChangeNotifierProvider(create: (context)=> ThemeProvider()),
+        //Restaurant Provider
+        ChangeNotifierProvider(create: (context)=> Restaurant())
+      ],
+        child: const MyApp()
       )
   );
 }
