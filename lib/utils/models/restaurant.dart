@@ -7,67 +7,63 @@ class Restaurant extends ChangeNotifier{
   final List<Food> _menu = [
     //burgers
     Food(
-      name: "Classic Cheese Burger",
-      description: "Burger with extra cheese on it ",
-      imagePath:
-          "lib/ImagesApp/Burger/amirali-mirhashemian-jh5XyK4Rr3Y-unsplash.jpg",
-      price: 100.0,
+      name: "Smoky BBQ Burger",
+      description: "Juicy grilled beef patty with smoky BBQ sauce and crispy onions.",
+      imagePath: "lib/ImagesApp/Burger/amirali-mirhashemian-jh5XyK4Rr3Y-unsplash.jpg",
+      price: 120.0,
       categories: FoodCategories.burger,
       availableAddon: [
-        Addon(name: "Extra meat", price: 30.3),
-        Addon(name: "Extra cheese", price: 30.3),
-        Addon(name: "Extra bacon", price: 30.3),
+        Addon(name: "BBQ Sauce", price: 20.0),
+        Addon(name: "Fried Onions", price: 15.0),
+        Addon(name: "Grilled Pineapple", price: 25.0),
       ],
     ),
     Food(
-      name: "Classic Cheese Burger",
-      description: "Burger with extra cheese on it ",
+      name: "Spicy Jalapeño Burger",
+      description: "Beef burger with fiery jalapeños, spicy mayo, and pepper jack cheese.",
       imagePath: "lib/ImagesApp/Burger/amirali-mirhashemian-sc5sTPMrVfk-unsplash.jpg",
-      price: 100.0,
+      price: 130.0,
       categories: FoodCategories.burger,
       availableAddon: [
-        Addon(name: "Extra meat", price: 30.3),
-        Addon(name: "Extra cheese", price: 30.3),
-        Addon(name: "Extra bacon", price: 30.3),
+        Addon(name: "Extra Jalapeños", price: 18.0),
+        Addon(name: "Spicy Mayo", price: 12.0),
+        Addon(name: "Pepper Jack Slice", price: 22.0),
       ],
     ),
     Food(
-      name: "Classic Cheese Burger",
-      description: "Burger with extra cheese on it ",
-      imagePath:
-          "lib/ImagesApp/Burger/david-foodphototasty-E94j3rMcxlw-unsplash.jpg",
-      price: 100.0,
+      name: "Mushroom Swiss Burger",
+      description: "A tender beef burger topped with sautéed mushrooms and Swiss cheese.",
+      imagePath: "lib/ImagesApp/Burger/david-foodphototasty-E94j3rMcxlw-unsplash.jpg",
+      price: 140.0,
       categories: FoodCategories.burger,
       availableAddon: [
-        Addon(name: "Extra meat", price: 30.3),
-        Addon(name: "Extra cheese", price: 30.3),
-        Addon(name: "Extra bacon", price: 30.3),
+        Addon(name: "Extra Mushrooms", price: 20.0),
+        Addon(name: "Swiss Cheese", price: 25.0),
+        Addon(name: "Truffle Aioli", price: 30.0),
       ],
     ),
     Food(
-      name: "Classic Cheese Burger",
-      description: "Burger with extra cheese on it ",
-      imagePath:
-          "lib/ImagesApp/Burger/david-foodphototasty-Fn6dPYtPUMc-unsplash.jpg",
-      price: 100.0,
+      name: "Bacon Ranch Delight",
+      description: "Crispy bacon stacked on a beef patty with ranch and cheddar.",
+      imagePath: "lib/ImagesApp/Burger/david-foodphototasty-Fn6dPYtPUMc-unsplash.jpg",
+      price: 125.0,
       categories: FoodCategories.burger,
       availableAddon: [
-        Addon(name: "Extra meat", price: 30.3),
-        Addon(name: "Extra cheese", price: 30.3),
-        Addon(name: "Extra bacon", price: 30.3),
+        Addon(name: "Crispy Bacon", price: 28.0),
+        Addon(name: "Ranch Drizzle", price: 18.0),
+        Addon(name: "Double Cheddar", price: 22.0),
       ],
     ),
     Food(
-      name: "Classic Cheese Burger",
-      description: "Burger with extra cheese on it ",
-      imagePath:
-          "lib/ImagesApp/Burger/joseph-gonzalez-fdlZBWIP0aM-unsplash.jpg",
-      price: 100.0,
+      name: "Hawaiian Teriyaki Burger",
+      description: "Sweet teriyaki sauce, grilled pineapple, and fresh lettuce.",
+      imagePath: "lib/ImagesApp/Burger/joseph-gonzalez-fdlZBWIP0aM-unsplash.jpg",
+      price: 135.0,
       categories: FoodCategories.burger,
       availableAddon: [
-        Addon(name: "Extra meat", price: 30.3),
-        Addon(name: "Extra cheese", price: 30.3),
-        Addon(name: "Extra bacon", price: 30.3),
+        Addon(name: "Teriyaki Glaze", price: 19.0),
+        Addon(name: "Pineapple Slice", price: 21.0),
+        Addon(name: "Lettuce Boost", price: 10.0),
       ],
     ),
 
@@ -288,11 +284,13 @@ class Restaurant extends ChangeNotifier{
   getters
   */
   List<Food> get menu => _menu;
+  List<CartItem> get cart => _cart;
   /*
   operation
   */
   //user cart
   final List<CartItem> _cart = [];
+
   //add to cart
   void addToCart(Food food , List<Addon> selectedAddons){
     // see if there is already an cart item with same selected addons
@@ -316,14 +314,19 @@ class Restaurant extends ChangeNotifier{
     notifyListeners();
   }
   //remove the cart
-  void removeFromCart(CartItem cartItems){
-    int cartIndex = _cart.indexOf(cartItems);
-    if(cartIndex > 1 ){
-      _cart[cartIndex].quantity--;
-    }else{
-      _cart.removeAt(cartIndex);
+  void removeFromCart(CartItem cartItem, List<Addon> selectedAddons) {
+    int cartIndex = _cart.indexOf(cartItem);
+
+    if (cartIndex != -1) {
+      if (_cart[cartIndex].quantity > 1) {
+        _cart[cartIndex].quantity--;
+      } else {
+        _cart.removeAt(cartIndex);
+      }
+      notifyListeners(); // Only notify if changes were made
     }
   }
+
   //get total price of the cart
   double getTotalPrice(){
     double total = 0;
@@ -337,9 +340,20 @@ class Restaurant extends ChangeNotifier{
     }
     return total;
   }
-  //get total price of the cart
   //get total number of the cart
+  int? getTotalItemCount(){
+    int totalItemInCart = 0;
+    for(CartItem cartItem in _cart){
+      totalItemInCart += cartItem.quantity;
+
+    }
+    return totalItemInCart;
+  }
   //clear the cart
+  void clearCart(){
+    _cart.clear();
+    notifyListeners();
+  }
   /*
   helpers
   */

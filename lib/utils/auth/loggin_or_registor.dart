@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../Pages/LoginPage.dart';
+
 import '../Pages/RegisterPage.dart';
 
 class LoginOrRegister extends StatefulWidget {

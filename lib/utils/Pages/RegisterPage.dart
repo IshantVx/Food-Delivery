@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:restapi/utils/Services/auth_services.dart';
 import 'package:restapi/utils/constants/spaces.dart';
 
 import '../componant/custom_widget/my_button.dart';
@@ -17,12 +19,40 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController userNameController = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController fullNameController = TextEditingController();
   bool _obscure = true;
+
+  void signUpWithEmailAndPassword() async{
+    final _authService = AuthServices();
+    if(confirmPasswordController.text == passwordController.text){
+      try {
+        await _authService.signUpWithEmailPassword(
+            emailController.text.trim(),
+            passwordController.text.trim());
+      }catch(e){
+        print(e);
+      }
+    }else{
+      Fluttertoast.showToast(msg: "Password doesn't match with confirm password");
+    }
+  }
+  void _validation() {
+    if (emailController.text.isEmpty) {
+      Fluttertoast.showToast(msg: "Please Enter the email");
+    } else if (passwordController.text.isEmpty) {
+      Fluttertoast.showToast(msg: "Please Enter the Password");
+    }else if(fullNameController.text.isEmpty){
+      Fluttertoast.showToast(msg: "Enter your full name");
+    }
+    else {
+      signUpWithEmailAndPassword();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 ISpace.v12,
                 MytextField(
-                  controller: userNameController,
+                  controller: emailController,
                   hintText: "Email",
                   obscureText: false,
                   prefixIcon: Icon(Icons.email),
@@ -142,7 +172,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 //   ),
                 // ),
                 SizedBox(height: 24),
-                MyButton(text: "Sign Up"),
+                MyButton(text: "Sign Up", onTap: (){
+                  _validation();
+                },),
                 SizedBox(height: 18),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

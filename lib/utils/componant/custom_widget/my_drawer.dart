@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restapi/utils/Pages/settingsPage.dart';
+import 'package:restapi/utils/Services/auth_services.dart';
 import 'package:restapi/utils/auth/loggin_or_registor.dart';
 import 'package:restapi/utils/componant/custom_widget/my_listTile.dart';
 import '../../models/fetchBarrelStockData.dart';
@@ -12,7 +15,12 @@ class MyDrawer extends StatefulWidget {
   State<MyDrawer> createState() => _MyDrawerState();
 }
 
+
 class _MyDrawerState extends State<MyDrawer> {
+  void logOut(){
+    final authServices= AuthServices();
+    authServices.signOut();
+  }
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -73,10 +81,8 @@ class _MyDrawerState extends State<MyDrawer> {
             text: "LogOut",
             icon: Icons.logout,
             onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginOrRegister()),
-              );
+              logOut();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginOrRegister()));
 
             },
           ),

@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restapi/utils/componant/custom_widget/my_button.dart';
 import 'package:restapi/utils/constants/sizes.dart';
 import 'package:restapi/utils/constants/spaces.dart';
 import 'package:restapi/utils/models/foodMenu.dart';
+import 'package:restapi/utils/models/restaurant.dart';
+
 
 class MyFoodPage extends StatefulWidget {
   final Food food;
@@ -24,6 +27,18 @@ class MyFoodPage extends StatefulWidget {
 }
 
 class _MyFoodPageState extends State<MyFoodPage> {
+  //method to add to cart
+  void addToCart(Food food, Map<Addon, bool> selectedAddons) {
+    Navigator.pop(context);
+
+    List<Addon> currentSelectedAddonList = [];
+    for(Addon addon in widget.food.availableAddon){
+      if(widget.selectedAddons[addon]== true){
+        currentSelectedAddonList.add(addon);
+      }
+    }
+    context.read<Restaurant>().addToCart(food, currentSelectedAddonList);
+  }
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -87,7 +102,7 @@ class _MyFoodPageState extends State<MyFoodPage> {
                       ),
                     ),
                     ISpace.v16,
-                    MyButton(text: 'Add to Cart', onTap: (){},)
+                    MyButton(text: 'Add to Cart', onTap: () => addToCart(widget.food, widget.selectedAddons),)
                     // button too add to cart
                     ],
               ),

@@ -15,6 +15,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController forgotPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,9 +37,34 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
             ),
             ISpace.v24,
-            MytextField(controller: forgotPasswordController, hintText: "Email", obscureText: false),
+            MytextField(
+              controller: forgotPasswordController,
+              hintText: "Email",
+              obscureText: false,
+            ),
             ISpace.v24,
             MyButton(text: "Send Link"),
+            ISpace.v16,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Know the credential ",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Sign In now",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

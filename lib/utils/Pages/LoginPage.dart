@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:restapi/utils/Pages/ForgotPassword.dart';
+import 'package:restapi/utils/Services/auth_services.dart';
 import 'package:restapi/utils/componant/custom_widget/my_button.dart';
 import 'package:restapi/utils/componant/custom_widget/my_textField.dart';
 import 'package:restapi/utils/constants/sizes.dart';
@@ -27,35 +30,16 @@ class longinPage extends StatefulWidget {
 class _longinPageState extends State<longinPage> {
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   bool _obscure = true;
 
-  Future postLogin() async {
-    final response = await http.post(
-      Uri.parse(
-        'https://api-barrel.sooritechnology.com.np/api/v1/user-app/login',
-      ),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: json.encode({
-        "userName": userNameController.text,
-        "password": passwordController.text,
-      }),
-    );
-    if (response.statusCode == 200) {
-      log(response.statusCode.toString());
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      preferences.setString("accessToken", jsonDecode(response.body)['tokens']['access']);
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => homePage()),
-      );
-    } else {
-      Fluttertoast.showToast(msg: "Invalid");
+  void signInUserWithEmailAndPassword() async{
+    final _authService = AuthServices();
+    try{
+     await _authService.signInWithEmailPassword(userNameController.text, passwordController.text);
+    }catch(e){
+      print(e);
     }
-    return response;
   }
 
 
@@ -65,7 +49,7 @@ class _longinPageState extends State<longinPage> {
     } else if (passwordController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Please Enter the Password");
     } else {
-      postLogin();
+      signInUserWithEmailAndPassword();
     }
   }
 
@@ -174,6 +158,7 @@ class _longinPageState extends State<longinPage> {
                     //   ),
                     // ),
                     SizedBox(height: 24),
+                    // sign in Button
                     MyButton(text: "Sign In" ,
                       onTap: _validation,
                     ),

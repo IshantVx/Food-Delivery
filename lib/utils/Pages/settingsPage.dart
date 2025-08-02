@@ -32,6 +32,7 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ),
                   CupertinoSwitch(
+
                       value: Provider.of<ThemeProvider>(context,)// the provider has default for true
                           .isDarkMode,
                       onChanged: (value)=>

@@ -1,5 +1,8 @@
 
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:restapi/utils/Services/authGate.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restapi/newPage.dart';
@@ -9,7 +12,9 @@ import 'package:restapi/utils/auth/loggin_or_registor.dart';
 import 'package:restapi/utils/models/restaurant.dart';
 import 'package:restapi/utils/theme/theme_provider.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
       MultiProvider(providers: [
         //theme Provider
@@ -31,7 +36,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: LoginOrRegister()
+      home: AuthGate()
     );
   }
 }

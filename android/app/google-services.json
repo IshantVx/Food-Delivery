@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1086489916721",
+    "project_id": "food-delivery-ff528",
+    "storage_bucket": "food-delivery-ff528.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1086489916721:android:85cec4c05f73a27106ac10",
+        "android_client_info": {
+          "package_name": "com.example.restapi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_DzgV2JILIT44hQRtyUqwNMqWC5uRf74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

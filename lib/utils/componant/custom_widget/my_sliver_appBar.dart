@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restapi/utils/Pages/cartPage.dart';
 
 class MySliverAppbar extends StatelessWidget {
   final Widget title;
@@ -23,7 +24,18 @@ class MySliverAppbar extends StatelessWidget {
       title: Text("Sunset Dinner"),
       centerTitle: true,
       actions: [
-        IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart_outlined))
+        IconButton(
+            onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context)=> MyCartPage()
+                  )
+              );
+            },
+            icon: Icon(Icons.shopping_cart_outlined
+            )
+        )
       ],
 
       flexibleSpace: FlexibleSpaceBar(
